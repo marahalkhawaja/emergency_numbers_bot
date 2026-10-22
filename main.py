@@ -63,6 +63,30 @@ def main():
     print("Bot is running...")
     application.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
     
+    import os
+    from flask import Flask
+    from threading import Thread
+    import telebot # Example using pyTelegramBotAPI
+
+    app = Flask('')
+
+    @app.route('/')
+    def home():
+        return "Bot is alive!"
+
+    def run_server():
+        # Render provides the port via environment variables
+        port = int(os.environ.get("PORT", 8080))
+        app.run(host='0.0.0.0', port=port)
+
+    # Start the web server in a separate thread so it doesn't block the bot
+    Thread(target=run_server).start()
+
+    # Initialize and start your Telegram Bot polling or webhooks here
+    bot = telebot.TeleBot(os.environ.get("BOT_TOKEN"))
+    bot.infinity_polling()
+
+    
 
 if __name__ == "__main__":
     main()
