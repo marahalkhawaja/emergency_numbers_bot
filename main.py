@@ -8,8 +8,6 @@ from emergency_data import EMERGENCY_SERVICES
 from keyboards import emergency_keyboard
 from rest_api import app as rest_api_app
 
- 
-updates_array = []
 async def handle_start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     await context.bot.send_message(
@@ -31,7 +29,6 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
 
     context.user_data["last_callback_id"] = query.id
     await query.answer()
-    updates_array.append(query.data)
 
     if query.data == "electricity_emergency":
         from elec_centers_keyboards import get_homs_electricity_keyboard
@@ -41,14 +38,14 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
         )
         return
 
-    if query.data == "formal_source":
-        prev_query = updates_array[-2] if len(updates_array) >= 2 else None
-        prev_service = EMERGENCY_SERVICES.get(prev_query) if prev_query else None
-        if prev_service:
+    if query.data.startswith("formal_source:"):
+        service_id = query.data.partition(":")[2]
+        service = EMERGENCY_SERVICES.get(service_id)
+        if service:
             await query.message.reply_html(
-                f"المصدر الرسمي للمعلومات هو:\n\n{prev_service.get('formal_source', 'لا توجد معلومات رسمية.') }"
+                f"المصدر الرسمي للمعلومات هو:\n\n"
+                f"{service.get('formal_source', 'لا توجد معلومات رسمية.')}"
             )
-        updates_array.clear()
         return
 
     service = EMERGENCY_SERVICES.get(query.data)
@@ -56,7 +53,12 @@ async def handle_callback_query(update: Update, context: ContextTypes.DEFAULT_TY
         await query.message.reply_html(
             service["message"],
             reply_markup=InlineKeyboardMarkup([
-                [InlineKeyboardButton("إظهار المصدر الرسمي", callback_data="formal_source")]
+                [
+                    InlineKeyboardButton(
+                        "إظهار المصدر الرسمي",
+                        callback_data=f"formal_source:{query.data}",
+                    )
+                ]
             ]),
         )
 
