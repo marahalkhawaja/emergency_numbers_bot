@@ -4,6 +4,9 @@ from emergency_data import EMERGENCY_SERVICES
 
 app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return jsonify({"message": "Welcome to the Emergency Numbers API"})
 
 @app.get("/health")
 def health():
