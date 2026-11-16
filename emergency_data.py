@@ -1,4 +1,23 @@
 EMERGENCY_SERVICES = {
+    "water_emergency": {
+        "name": "طوارئ المياه",
+        "number": "164",
+        "formal_source": "https://www.facebook.com/HomsGov1/posts/%D9%86%D8%B8%D8%B1%D8%A7%D9%8B-%D9%84%D9%84%D8%B8%D8%B1%D9%88%D9%81-%D8%A7%D9%84%D8%AC%D9%88%D9%8A%D8%A9-%D8%A7%D9%84%D8%B3%D8%A7%D8%A6%D8%AF%D8%A9-%D9%88%D8%A7%D9%84%D9%87%D8%B7%D9%88%D9%84%D8%A7%D8%AA-%D8%A7%D9%84%D8%A7%D8%B7%D8%B1%D9%8A%D8%A9-%D8%A7%D9%84%D8%BA%D8%B2%D9%8A%D8%B1%D8%A9-%D9%88%D8%AD%D8%B1%D8%B5%D8%A7%D8%A8-%D8%B9%D9%84%D9%8A%D9%87-%D8%B3%D9%84%D8%A7%D9%87%D8%A9-%D8%A7%D9%84%D9%88%D8%A7%D8%B7%D8%B1%D9%8A%D8%A9/122154507782661241/",
+        "message": (
+            "طوارئ المياه - محافظة حمص\n"
+            "للشكاوى أو انقطاع المياه: 164\n\n"
+            "يمكن التواصل مع قسم المياه أو الجهات المعنية في المحافظة."
+        )
+    },
+    "health_complaints": {
+        "name": "رابط الشكاوي - مديرية الصحة",
+        "number": "N/A",
+        "formal_source": "https://www.facebook.com/homshealth.gov.sy/",
+        "message": (
+            "رابط الشكاوي - مديرية الصحة\n\n"
+            "<a href='https://www.facebook.com/homshealth.gov.sy/'>فتح الصفحة الرسمية لمديرية الصحة</a>"
+        )
+    },
     "ambulance": {
         "name": "إسعاف مديرية الصحة",
         "number": "110",
