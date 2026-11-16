@@ -1,10 +1,12 @@
-from telegram import  Bot, Update , InlineKeyboardButton, InlineKeyboardMarkup
+from threading import Thread
+
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode
 from telegram.ext import Application, CallbackQueryHandler, CommandHandler, ContextTypes
-from config import BOT_TOKEN
+from config import API_HOST, API_PORT, BOT_TOKEN
 from emergency_data import EMERGENCY_SERVICES
 from keyboards import emergency_keyboard
-from telegram_api import get_bot
+from rest_api import app as rest_api_app
 
  
 updates_array = []
@@ -64,10 +66,22 @@ def main():
     application = Application.builder().token(BOT_TOKEN).build()
     application.add_handler(CommandHandler("start", handle_start))
     application.add_handler(CallbackQueryHandler(handle_callback_query))
+
+    api_thread = Thread(
+        target=lambda: rest_api_app.run(
+            host=API_HOST,
+            port=API_PORT,
+            debug=False,
+            use_reloader=False,
+        ),
+        daemon=True,
+    )
+    api_thread.start()
+
+    print(f"REST API is listening on {API_HOST}:{API_PORT}")
     print("Bot is running...")
     application.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
     
    
 if __name__ == "__main__":
     main()
-
